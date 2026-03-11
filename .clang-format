@@ -1,0 +1,66 @@
+Language: C
+BasedOnStyle: LLVM
+
+# indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 8
+
+# line length
+ColumnLimit: 100
+
+# braces
+BreakBeforeBraces: Allman
+
+# short statements
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+
+# switch formatting
+IndentCaseLabels: true
+IndentCaseBlocks: true
+
+# pointers
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+# function formatting
+BinPackArguments: false
+BinPackParameters: false
+
+# includes
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+
+IncludeCategories:
+  - Regex: '^<.*>'
+    Priority: 1
+  - Regex: '^".*"'
+    Priority: 2
+
+# spacing
+SpaceBeforeParens: ControlStatements
+SpaceBeforeAssignmentOperators: true
+
+# comments
+ReflowComments: true
+AlignTrailingComments: true
+SpacesBeforeTrailingComments: 1
+
+# empty lines
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# preprocessor
+IndentPPDirectives: None
+
+# alignment
+AlignOperands: Align
+AlignAfterOpenBracket: Align
+AlignEscapedNewlines: Right
+
+# misc
+Standard: C11
