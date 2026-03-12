@@ -1,4 +1,5 @@
 ```mermaid
+
 %%{init: {
 "theme": "base",
 "flowchart": {
@@ -12,11 +13,12 @@
 "tertiaryTextColor": "#94a3b8",
 "lineColor": "#000000",
 "fontFamily": "Inter, Segoe UI, Arial, sans-serif",
-"fontSize": "15px",
+"fontSize": "19px",
 "clusterBkg": "#0f172a",
 "clusterBorder": "#334155",
 "defaultLinkColor": "#000000",
-"nodeBorder": "#475569"
+"nodeBorder": "#475569",
+"edgeLabelBackground": "#0b1220"
 }
 }}%%
 
@@ -29,15 +31,15 @@ subgraph READ_HOOKS["Read Hooks"]
 
 INPUT_TEMP["<div style='text-align:center;font-size:20px;font-weight:700;'>Temperature</div>
 
-<div style='text-align:left'> read_temperature_sensor() </div>"]
+<div style='text-align:left'>temperature_entry_point()</div>"]
 
 INPUT_TIME["<div style='text-align:center;font-size:20px;font-weight:700;'>Time</div>
 
-<div style='text-align:left'> read_time_sensor() </div>"]
+<div style='text-align:left'>time_entry_point()</div>"]
 
 INPUT_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic</div>
 
-<div style='text-align:left'> read_traffic_sensor() </div>"]
+<div style='text-align:left'>traffic_entry_point()</div>"]
 
 end
 
@@ -45,15 +47,15 @@ subgraph WRITE_HOOKS["Write Hooks"]
 
 OUTPUT_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling</div>
 
-<div style='text-align:left'> activate_cooling() </div>"]
+<div style='text-align:left'>city_api_cooling_entry_point()</div>"]
 
 OUTPUT_LIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Lighting</div>
 
-<div style='text-align:left'> turn_streetlights_on_off() </div>"]
+<div style='text-align:left'>city_api_lighting_entry_point()"]
 
 OUTPUT_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic</div>
 
-<div style='text-align:left'> adjust_traffic_light_timing() </div>"]
+<div style='text-align:left'>city_api_traffic_entry_point()</div>"]
 
 end
 
@@ -64,15 +66,15 @@ subgraph DATASOURCES["Data Sources"]
 
 DS_TEMP["<div style='text-align:center;font-size:20px;font-weight:700;'>Temperature Data Source [S]</div>
 
-<div style='text-align:left'> Reads temperature input<br/> Publishes a temperature event </div>"]
+<div style='text-align:left'>Forwards raw data</div>"]
 
 DS_TIME["<div style='text-align:center;font-size:20px;font-weight:700;'>Time Data Source [S]</div>
 
-<div style='text-align:left'> Reads current hour<br/> Publishes a time event </div>"]
+<div style='text-align:left'>Forwards raw data</div>"]
 
 DS_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Data Source [S]</div>
 
-<div style='text-align:left'> Reads congestion level<br/> Publishes a traffic event </div>"]
+<div style='text-align:left'>Forwards raw data</div>"]
 
 end
 
@@ -81,36 +83,36 @@ subgraph DATAHOLDERS["Data Holders"]
 
 DH_TEMP["<div style='text-align:center;font-size:20px;font-weight:700;'>Temperature Data Holder [O + S]</div>
 
-<div style='text-align:left'> Stores latest temperature<br/> Unit: °C </div>"]
+<div style='text-align:left'>Validates & Builds a typed temperature object</div>"]
 
 DH_TIME["<div style='text-align:center;font-size:20px;font-weight:700;'>Time Data Holder [O + S]</div>
 
-<div style='text-align:left'> Stores latest hour<br/> Range: 0-23 </div>"]
+<div style='text-align:left'>Validates & Builds a typed time object</div>"]
 
 DH_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Data Holder [O + S]</div>
 
-<div style='text-align:left'> Stores latest congestion<br/> Range: 0-100% </div>"]
+<div style='text-align:left'>Validates & Builds a typed traffic object</div>"]
 
 end
 
-%% Triggers
-subgraph TRIGGERS["Triggers"]
+%% Events
+subgraph EVENTS["Events"]
 
-TRIG_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling Trigger [O+S]</div>
+EV_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling Event [O+S]</div>
 
-<div style='text-align:left'> Evaluates cooling condition<br/> Uses cooling algorithm </div>"]
+<div style='text-align:left'>Uses Cooling System Algorithm</div>"]
 
-TRIG_NIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Night Trigger [O+S]</div>
+EV_NIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Night Event [O+S]</div>
 
-<div style='text-align:left'> Active between<br/> 18:00 and 06:59 </div>"]
+<div style='text-align:left'>When night falls (18:00-06:59), turn-on streetlights</div>"]
 
-TRIG_DAY["<div style='text-align:center;font-size:20px;font-weight:700;'>Day Trigger [O+S]</div>
+EV_DAY["<div style='text-align:center;font-size:20px;font-weight:700;'>Day Event [O+S]</div>
 
-<div style='text-align:left'> Active between<br/> 07:00 and 17:59 </div>"]
+<div style='text-align:left'>When day arrives (07:00-17:59), turn-off streetlights</div>"]
 
-TRIG_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Trigger [O+S]</div>
+EV_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Event [O+S]</div>
 
-<div style='text-align:left'> Evaluates congestion condition<br/> Uses traffic algorithm </div>"]
+<div style='text-align:left'>Uses Traffic Light Algorithm</div>"]
 
 end
 
@@ -119,15 +121,15 @@ subgraph AGGREGATORS["Aggregators"]
 
 AGG_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling Aggregator [O+S]</div>
 
-<div style='text-align:left'> Collects trigger results<br/> Produces cooling decision </div>"]
+<div style='text-align:left'>Combines event state into a single cooling decision</div>"]
 
 AGG_LIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Lighting Aggregator [O+S]</div>
 
-<div style='text-align:left'> Combines day and night state<br/> Produces lighting decision </div>"]
+<div style='text-align:left'>Combines day and night event state into one lighting decision</div>"]
 
 AGG_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Aggregator [O+S]</div>
 
-<div style='text-align:left'> Collects traffic trigger results<br/> Produces traffic policy </div>"]
+<div style='text-align:left'>Combines traffic event state into one traffic decision</div>"]
 
 end
 
@@ -136,45 +138,45 @@ subgraph EFFECTS["Effects"]
 
 EFF_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling System Effect [O]</div>
 
-<div style='text-align:left'> Activates or deactivates cooling </div>"]
+<div style='text-align:left'>Transforms the cooling command into a concrete system action</div>"]
 
-EFF_LIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Lighting System Effect [O]</div>
+EFF_LIGHT["<div style='text-align:center;font-size:20px;font-size:20px;font-weight:700;'>Lighting System Effect [O]</div>
 
-<div style='text-align:left'> Turns streetlights on or off </div>"]
+<div style='text-align:left'>Transforms the lighting command into a concrete system action</div>"]
 
 EFF_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Light Controller Effect [O]</div>
 
-<div style='text-align:left'> Adjusts traffic light timing </div>"]
+<div style='text-align:left'>Transforms the traffic command into a concrete system action</div>"]
 
 end
 
 %% Flow
 
-INPUT_TEMP --> DS_TEMP
-INPUT_TIME --> DS_TIME
-INPUT_TRAFFIC --> DS_TRAFFIC
+INPUT_TEMP -- "raw temperature data" --> DS_TEMP
+INPUT_TIME -- "raw time data" --> DS_TIME
+INPUT_TRAFFIC -- "raw traffic data" --> DS_TRAFFIC
 
-DS_TEMP --> DH_TEMP
-DS_TIME --> DH_TIME
-DS_TRAFFIC --> DH_TRAFFIC
+DS_TEMP -- "raw temperature data" --> DH_TEMP
+DS_TIME -- "raw time data" --> DH_TIME
+DS_TRAFFIC -- "raw traffic data" --> DH_TRAFFIC
 
-DH_TEMP --> TRIG_COOL
-DH_TIME --> TRIG_NIGHT
-DH_TIME --> TRIG_DAY
-DH_TRAFFIC --> TRIG_TRAFFIC
+DH_TEMP -- "validated temperature object" --> EV_COOL
+DH_TIME -- "validated time object" --> EV_NIGHT
+DH_TIME -- "validated time object" --> EV_DAY
+DH_TRAFFIC -- "validated traffic object" --> EV_TRAFFIC
 
-TRIG_COOL --> AGG_COOL
-TRIG_NIGHT --> AGG_LIGHT
-TRIG_DAY --> AGG_LIGHT
-TRIG_TRAFFIC --> AGG_TRAFFIC
+EV_COOL -- "cooling event { is_ready, temperature payload }" --> AGG_COOL
+EV_NIGHT -- "night event { is_ready, time payload }" --> AGG_LIGHT
+EV_DAY -- "day event { is_ready, time payload }" --> AGG_LIGHT
+EV_TRAFFIC -- "traffic event { is_ready, traffic payload }" --> AGG_TRAFFIC
 
-AGG_COOL --> EFF_COOL
-AGG_LIGHT --> EFF_LIGHT
-AGG_TRAFFIC --> EFF_TRAFFIC
+AGG_COOL -- "cooling command" --> EFF_COOL
+AGG_LIGHT -- "lighting command" --> EFF_LIGHT
+AGG_TRAFFIC -- "traffic command" --> EFF_TRAFFIC
 
-EFF_COOL --> OUTPUT_COOL
-EFF_LIGHT --> OUTPUT_LIGHT
-EFF_TRAFFIC --> OUTPUT_TRAFFIC
+EFF_COOL -- "cooling command" --> OUTPUT_COOL
+EFF_LIGHT -- "lighting command" --> OUTPUT_LIGHT
+EFF_TRAFFIC -- "traffic command" --> OUTPUT_TRAFFIC
 
 %% Node styles
 classDef mainStyle fill:#132033,stroke:#7dd3fc,color:#e6edf3,stroke-width:2px;
@@ -186,13 +188,52 @@ classDef aggregatorStyle fill:#2e1f4d,stroke:#c4b5fd,color:#f5f3ff,stroke-width:
 classDef effectStyle fill:#163223,stroke:#86efac,color:#ecfdf5,stroke-width:2px;
 classDef envStyle fill:#3b1830,stroke:#f9a8d4,color:#fdf2f8,stroke-width:2px;
 
-class MAIN mainStyle
 class INPUT_TEMP,INPUT_TIME,INPUT_TRAFFIC,OUTPUT_COOL,OUTPUT_LIGHT,OUTPUT_TRAFFIC hooksStyle
 class DS_TEMP,DS_TIME,DS_TRAFFIC sourceStyle
 class DH_TEMP,DH_TIME,DH_TRAFFIC holderStyle
-class TRIG_COOL,TRIG_NIGHT,TRIG_DAY,TRIG_TRAFFIC triggerStyle
+class EV_COOL,EV_NIGHT,EV_DAY,EV_TRAFFIC triggerStyle
 class AGG_COOL,AGG_LIGHT,AGG_TRAFFIC aggregatorStyle
 class EFF_COOL,EFF_LIGHT,EFF_TRAFFIC effectStyle
-class CITY envStyle
 
 linkStyle default stroke:#000000,stroke-width:2px
+
+```
+
+## Design Notes
+
+1. **Aggregator Usage**
+
+In some parts of the system, the event could have been sent **directly to the effect module** without passing through an aggregator, since there is no actual merging of multiple inputs in those cases.
+
+However, in a project of this size, it is preferable to keep the **aggregator layer in place**.  
+Although this introduces a small amount of additional code, it preserves a consistent architecture and allows the system to **scale more easily in the future** if additional inputs or decision logic are introduced.
+
+---
+
+2. **Data Source vs Data Holder**
+
+In this implementation, the **Data Source** and **Data Holder** are separated into different modules.
+
+Technically, they could have been combined into a single component.
+
+We prefer to keep this design modular for cases where the stored information needs to maintain its own state.
+
+In this design:
+
+- **Data Source** is responsible for publishing and propagating information
+- **Data Holder** is responsible for storing the latest state
+
+---
+
+3. **Aggregator "busy wait loop"**
+
+The **Aggregator** is responsible for syncing several upstream observers before propagating the final decision to the next stage.
+
+Aggregator must ensure that **all required inputs have completed their computation** before publishing the result.
+
+Each upstream observer updates its own `is_ready` flag when it finishes processing.  
+The Aggregator checks the state of all its dependent observers and only proceeds when **all of them are ready at the same time**.
+
+If this condition is not satisfied, the Aggregator simply **exits the current flow** and waits for the next incoming event. When a new event arrives, the Aggregator checks the observers again to determine whether all required inputs are ready.
+
+Because the **subjects associated with the Aggregator are global objects**, their state is accessible whenever a new event reaches the Aggregator, allowing it to evaluate whether the full set of inputs is ready.

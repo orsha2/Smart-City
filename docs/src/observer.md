@@ -24,7 +24,7 @@ The Observer structure stores:
 
 #include <stdbool.h>
 
-typedef void (*observer_update_fn)(void *context);
+typedef void (*observer_update_fn)(void *self, void *context);
 
 struct Observer
 {

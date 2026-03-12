@@ -2,7 +2,6 @@
 
 Data Source
 
-
 ## 2. Description
 
 The Data Source module represents the entry point of raw data into the system pipeline.
@@ -14,13 +13,11 @@ Its responsibility is only to propagate incoming data to its observers.
 
 For this reason, a Data Source is implemented as a Subject.
 
-
 ## 3. What Does the Module Store
 
 The Data Source structure stores a subject base used to notify downstream observers.
 
 The Data Source does not store the data value itself.
-
 
 ## 4. Abstract Implementation
 
@@ -52,4 +49,6 @@ void DATA_SOURCE_publish(struct DataSource *self,
 
 2. In the system pipeline, the Data Source is typically connected to a Data Holder.
 
-3. The context parameter contains the raw value received from the entry point.
+3. The system **entry point** directly invokes the relevant **Data Source**.
+
+At the beginning of each cycle, the entry point effects the appropriate Data Source, which then performs a `publish()` operation on its global subject. From this point, the event begins to propagate through the system.
