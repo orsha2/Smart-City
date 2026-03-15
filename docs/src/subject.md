@@ -2,6 +2,7 @@
 
 Subject
 
+
 ## 2. Description
 
 The Subject module implements the Subject side of the Observer design pattern.
@@ -11,6 +12,7 @@ A Subject maintains a collection of observers and is responsible for notifying t
 The Subject itself does not perform business logic.
 It only manages observers and propagates notifications.
 
+
 ## 3. What Does the Module Store
 
 The Subject structure stores:
@@ -19,6 +21,7 @@ The Subject structure stores:
 - the number of registered observers
 
 This allows the subject to iterate over all observers and notify them when needed.
+
 
 ## 4. Abstract Implementation
 

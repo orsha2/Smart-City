@@ -199,6 +199,13 @@ linkStyle default stroke:#000000,stroke-width:2px
 
 ```
 
+## Notation
+
+- `[O]` = the component exposes an **Observer**
+- `[S]` = the component exposes a **Subject**
+- `[O + S]` = the component both consumes upstream notifications and publishes downstream notifications
+
+
 ## Design Notes
 
 1. **Aggregator Usage**
