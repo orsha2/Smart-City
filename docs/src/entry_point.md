@@ -1,11 +1,11 @@
 ## 1. Module Name
 
-Hooks
+Entry point
 
 
 ## 2. Description
 
-The hooks module defines the functions through which external inputs enter the system pipeline.
+The entry point module defines the functions through which external inputs enter the system pipeline.
 
 Entry points receive raw input values from the processor, HAL, or external environment and forward them to the appropriate Data Source.
 
@@ -25,8 +25,8 @@ The module acts purely as a routing layer between the external environment and t
 ## 4. Abstract Implementation
 
 ```c
-#ifndef __SMART_CITY_HOOKS_H__
-#define __SMART_CITY_HOOKS_H__
+#ifndef __SMART_CITY_ENTRY_POINT_H__
+#define __SMART_CITY_ENTRY_POINT_H__
 
 #include "temperature_data_source.h"
 #include "time_data_source.h"
@@ -38,7 +38,7 @@ void SMART_CITY_on_time_update(int hour);
 
 void SMART_CITY_on_traffic_update(int congestion_level);
 
-#endif /* !__SMART_CITY_HOOKS_H__ */
+#endif /* !__SMART_CITY_ENTRY_POINT_H__ */
 ```
 
 

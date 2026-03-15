@@ -4,7 +4,7 @@ Aggregator
 
 ## 2. Description
 
-The Aggregator module is responsible for collecting results from multiple effects and producing a final decision.
+The Aggregator module is responsible for collecting results from multiple events and producing a final decision.
 
 Aggregators receive events from one or more Event modules and combine their results to determine the appropriate action.
 
@@ -15,7 +15,7 @@ If the aggregation logic determines that a decision should be taken, the Aggrega
 Because of this behavior, the Aggregator acts as both:
 
 1. an Observer (receives results from Events)
-2. a Subject (notifies downstream modules such as Effects)
+2. a Subject (notifies downstream modules such as Responses)
 
 ## 3. What Does the Module Store
 
@@ -23,7 +23,7 @@ The Aggregator structure stores:
 
 1. an Observer
 2. a Subject base used to notify downstream observers
-3. internal state used to combine effect results
+3. internal state used to combine events results
 
 ## 4. Abstract Implementation
 

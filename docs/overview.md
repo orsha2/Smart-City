@@ -24,10 +24,10 @@
 
 flowchart TD
 
-%% Hooks
-subgraph HOOKS["Hooks"]
+%% Entry Points
+subgraph ENTRY POINTS["Entry Points"]
 
-subgraph READ_HOOKS["Read Hooks"]
+subgraph READ_API["Read Api"]
 
 INPUT_TEMP["<div style='text-align:center;font-size:20px;font-weight:700;'>Temperature</div>
 
@@ -43,7 +43,7 @@ INPUT_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Tr
 
 end
 
-subgraph WRITE_HOOKS["Write Hooks"]
+subgraph WRITE_API["Write Api"]
 
 OUTPUT_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling</div>
 
@@ -133,18 +133,18 @@ AGG_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traf
 
 end
 
-%% Effects
-subgraph EFFECTS["Effects"]
+%% Response
+subgraph Responses["Responses"]
 
-EFF_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling System Effect [O]</div>
+EFF_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling System Response [O]</div>
 
 <div style='text-align:left'>Transforms the cooling command into a concrete system action</div>"]
 
-EFF_LIGHT["<div style='text-align:center;font-size:20px;font-size:20px;font-weight:700;'>Lighting System Effect [O]</div>
+EFF_LIGHT["<div style='text-align:center;font-size:20px;font-size:20px;font-weight:700;'>Lighting System Response [O]</div>
 
 <div style='text-align:left'>Transforms the lighting command into a concrete system action</div>"]
 
-EFF_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Light Controller Effect [O]</div>
+EFF_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Light Controller Response [O]</div>
 
 <div style='text-align:left'>Transforms the traffic command into a concrete system action</div>"]
 
@@ -180,20 +180,20 @@ EFF_TRAFFIC -- "traffic command" --> OUTPUT_TRAFFIC
 
 %% Node styles
 classDef mainStyle fill:#132033,stroke:#7dd3fc,color:#e6edf3,stroke-width:2px;
-classDef hooksStyle fill:#0f2f2f,stroke:#5eead4,color:#e6fffb,stroke-width:2px;
+classDef entrypointStyle fill:#0f2f2f,stroke:#5eead4,color:#e6fffb,stroke-width:2px;
 classDef sourceStyle fill:#142c46,stroke:#93c5fd,color:#eaf2ff,stroke-width:2px;
 classDef holderStyle fill:#1f2937,stroke:#94a3b8,color:#f3f4f6,stroke-width:2px;
 classDef triggerStyle fill:#3a2a12,stroke:#fbbf24,color:#fff7e6,stroke-width:2px;
 classDef aggregatorStyle fill:#2e1f4d,stroke:#c4b5fd,color:#f5f3ff,stroke-width:2px;
-classDef effectStyle fill:#163223,stroke:#86efac,color:#ecfdf5,stroke-width:2px;
+classDef responseStyle fill:#163223,stroke:#86efac,color:#ecfdf5,stroke-width:2px;
 classDef envStyle fill:#3b1830,stroke:#f9a8d4,color:#fdf2f8,stroke-width:2px;
 
-class INPUT_TEMP,INPUT_TIME,INPUT_TRAFFIC,OUTPUT_COOL,OUTPUT_LIGHT,OUTPUT_TRAFFIC hooksStyle
+class INPUT_TEMP,INPUT_TIME,INPUT_TRAFFIC,OUTPUT_COOL,OUTPUT_LIGHT,OUTPUT_TRAFFIC entrypointStyle
 class DS_TEMP,DS_TIME,DS_TRAFFIC sourceStyle
 class DH_TEMP,DH_TIME,DH_TRAFFIC holderStyle
 class EV_COOL,EV_NIGHT,EV_DAY,EV_TRAFFIC triggerStyle
 class AGG_COOL,AGG_LIGHT,AGG_TRAFFIC aggregatorStyle
-class EFF_COOL,EFF_LIGHT,EFF_TRAFFIC effectStyle
+class EFF_COOL,EFF_LIGHT,EFF_TRAFFIC responseStyle
 
 linkStyle default stroke:#000000,stroke-width:2px
 
@@ -210,7 +210,7 @@ linkStyle default stroke:#000000,stroke-width:2px
 
 1. **Aggregator Usage**
 
-In some parts of the system, the event could have been sent **directly to the effect module** without passing through an aggregator, since there is no actual merging of multiple inputs in those cases.
+In some parts of the system, the event could have been sent **directly to the response module** without passing through an aggregator, since there is no actual merging of multiple inputs in those cases.
 
 However, in a project of this size, it is preferable to keep the **aggregator layer in place**.  
 Although this introduces a small amount of additional code, it preserves a consistent architecture and allows the system to **scale more easily in the future** if additional inputs or decision logic are introduced.
