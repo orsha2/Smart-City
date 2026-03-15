@@ -15,7 +15,7 @@ If the aggregation logic determines that a decision should be taken, the Aggrega
 Because of this behavior, the Aggregator acts as both:
 
 1. an Observer (receives results from Events)
-2. a Subject (notifies downstream modules such as Events)
+2. a Subject (notifies downstream modules such as Effects)
 
 ## 3. What Does the Module Store
 

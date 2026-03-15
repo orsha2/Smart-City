@@ -6,7 +6,7 @@ Effect
 
 The Effect module is responsible for executing the final action in the system pipeline.
 
-Effects receive decisions from upstream modules, typically Aggregators or Effects, and apply the required action to the external world.
+Effects receive decisions from upstream modules, typically Aggregators or Events, and apply the required action to the external world.
 An Effect does not propagate data further in the pipeline.
 Its responsibility is to consume the final decision and execute the corresponding operation.
 
