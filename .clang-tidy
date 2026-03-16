@@ -1,0 +1,18 @@
+Checks: >-
+  -*-,
+  clang-analyzer-*,
+  bugprone-*,
+  misc-*,
+  readability-braces-around-statements,
+  readability-else-after-return,
+  readability-redundant-control-flow,
+  readability-simplify-boolean-expr,
+  -misc-include-cleaner
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '^src/.*'
+FormatStyle: file
+
+CheckOptions:
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'
