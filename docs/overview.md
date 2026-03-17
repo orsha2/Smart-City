@@ -119,17 +119,9 @@ end
 %% Aggregators
 subgraph AGGREGATORS["Aggregators"]
 
-AGG_COOL["<div style='text-align:center;font-size:20px;font-weight:700;'>Cooling Aggregator [O+S]</div>
-
-<div style='text-align:left'>Combines event state into a single cooling decision</div>"]
-
 AGG_LIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Lighting Aggregator [O+S]</div>
 
 <div style='text-align:left'>Combines day and night event state into one lighting decision</div>"]
-
-AGG_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Aggregator [O+S]</div>
-
-<div style='text-align:left'>Combines traffic event state into one traffic decision</div>"]
 
 end
 
@@ -165,14 +157,12 @@ DH_TIME -- "validated time object" --> EV_NIGHT
 DH_TIME -- "validated time object" --> EV_DAY
 DH_TRAFFIC -- "validated traffic object" --> EV_TRAFFIC
 
-EV_COOL -- "cooling event { is_ready, temperature payload }" --> AGG_COOL
+EV_COOL -- "cooling command" --> EFF_COOL
 EV_NIGHT -- "night event { is_ready, time payload }" --> AGG_LIGHT
 EV_DAY -- "day event { is_ready, time payload }" --> AGG_LIGHT
-EV_TRAFFIC -- "traffic event { is_ready, traffic payload }" --> AGG_TRAFFIC
+EV_TRAFFIC -- "traffic command" --> EFF_TRAFFIC
 
-AGG_COOL -- "cooling command" --> EFF_COOL
 AGG_LIGHT -- "lighting command" --> EFF_LIGHT
-AGG_TRAFFIC -- "traffic command" --> EFF_TRAFFIC
 
 EFF_COOL -- "cooling command" --> OUTPUT_COOL
 EFF_LIGHT -- "lighting command" --> OUTPUT_LIGHT
