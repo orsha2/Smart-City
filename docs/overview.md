@@ -203,7 +203,7 @@ linkStyle default stroke:#000000,stroke-width:2px
 
 - `[O]` = the component exposes an **Observer**
 - `[S]` = the component exposes a **Subject**
-- `[O + S]` = the component both consumes upstream notifications and publishes downstream notifications
+- `[O + S]` = the component exposes both an **Observer** and a **Subject** 
 
 
 ## Design Notes
