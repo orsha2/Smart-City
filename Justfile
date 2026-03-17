@@ -7,15 +7,15 @@ default:
     @just --list
 
 _configure:
-    cmake -S . -B {{build_dir}} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    cmake -S . -B {{build_dir}} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug 
 
-build: _configure
+build_debug: _configure
     cmake --build {{build_dir}} --parallel
 
-run: build
+run_debug: build_debug
     ./{{build_dir}}/app
 
-test: build
+test: build_debug
     pushd  {{build_dir}}; ctest --output-on-failure; popd
 
 format:

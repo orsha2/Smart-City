@@ -7,12 +7,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
 include(cmake/CompilerOptions.cmake)
-include(cmake/Dependencies.cmake)
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    include(cmake/Testing.cmake)
-endif()
+include(cmake/Testing.cmake)
 
 add_subdirectory(src)
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_subdirectory(tests)
-endif()
