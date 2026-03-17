@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "math/math.h"
+#include "math.h"
 
 int main(void)
 {

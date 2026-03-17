@@ -6,16 +6,16 @@ src_dir := "src"
 default:
     @just --list
 
-_configure:
-    cmake -S . -B {{build_dir}} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug 
+_configure_debug:
+    cmake -S . -B {{build_dir}} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-build_debug: _configure
+build: _configure_debug
     cmake --build {{build_dir}} --parallel
 
-run_debug: build_debug
-    ./{{build_dir}}/app
+run: build
+    ./{{build_dir}}/src/app
 
-test: build_debug
+test: build
     pushd  {{build_dir}}; ctest --output-on-failure; popd
 
 format:
@@ -26,7 +26,7 @@ format-check:
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.(c|h)' -print0 | \
         xargs -0 clang-format-18 --dry-run --Werror
 
-lint: _configure
+lint: _configure_debug
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.c' -print0 | \
         xargs -0 clang-tidy-18 -p {{build_dir}}
 
