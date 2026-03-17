@@ -8,7 +8,11 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 include(cmake/CompilerOptions.cmake)
 include(cmake/Dependencies.cmake)
-include(cmake/Testing.cmake)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    include(cmake/Testing.cmake)
+endif()
 
 add_subdirectory(src)
-add_subdirectory(tests)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_subdirectory(tests)
+endif()
