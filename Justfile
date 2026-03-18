@@ -20,15 +20,15 @@ test: build
 
 format:
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.(c|h)' -print0 | \
-        xargs -0 clang-format-18 -i
+        xargs -0 clang-format-21 -i
 
 format-check:
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.(c|h)' -print0 | \
-        xargs -0 clang-format-18 --dry-run --Werror
+        xargs -0 clang-format-21 --dry-run --Werror
 
 lint: _configure_debug
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.c' -print0 | \
-        xargs -0 clang-tidy-18 -p {{build_dir}}
+        xargs -0 clang-tidy-21 -p {{build_dir}}
 
 check: format-check lint test
 
