@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(SmartCity C)
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
-
-include(cmake/CompilerOptions.cmake)
-include(cmake/Testing.cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(CompilerOptions)
+include(Testing)
 
 add_subdirectory(src)
