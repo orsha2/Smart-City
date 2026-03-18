@@ -7,7 +7,7 @@ default:
     @just --list
 
 _configure_debug:
-    cmake -S . -B {{build_dir}} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    cmake -S . -B {{build_dir}} -DENABLE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 build: _configure_debug
     cmake --build {{build_dir}} --parallel

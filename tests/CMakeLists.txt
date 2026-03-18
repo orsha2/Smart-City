@@ -1,3 +1,5 @@
+include(Testing)
+
 add_executable(test_math
     math/test_math.c
 )

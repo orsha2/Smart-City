@@ -1,15 +1,12 @@
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    include(FetchContent)
+include(CTest)
+include(FetchContent)
 
-    FetchContent_Declare(
-        unity
-        GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
-        GIT_TAG v2.6.1
-    )
+FetchContent_Declare(
+    unity
+    GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
+    GIT_TAG v2.6.1
+)
 
-    FetchContent_MakeAvailable(unity)
-    
-    include(CTest)
+FetchContent_MakeAvailable(unity)
 
-    add_subdirectory(tests)
-endif()
+add_subdirectory(tests)
