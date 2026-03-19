@@ -16,7 +16,7 @@ run: build
     ./{{build_dir}}/src/app
 
 test: build
-    pushd build; ctest --output-on-failure; popd
+    pushd build; ctest --output-on-failure -V; popd
 
 format:
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.(c|h)' -print0 | \

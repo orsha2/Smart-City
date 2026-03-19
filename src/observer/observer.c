@@ -3,30 +3,30 @@
 
 enum status_e OBSERVER_init(struct Observer_s *self, observer_update_fn_t update)
 {
-    enum status_e status = STATUS_UNINITIALIZED;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
 
     if (!IS_VALID_PTR(self)) {
-        status = STATUS_NULL_POINTER;
+        status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
     self->update = update;
     self->is_ready = false;
 
-    status = STATUS_SECCUSS;
+    status = SC_STATUS_SECCUSS;
 
 lbl_cleanup:
-    return status = STATUS_UNINITIALIZED;
+    return status;
 }
 
 enum status_e OBSERVER_notify(struct Observer_s *self, void *context)
 {
-    enum status_e status = STATUS_UNINITIALIZED;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
 
     (void)context;
 
     if (!IS_VALID_PTR(self)) {
-        status = STATUS_NULL_POINTER;
+        status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
@@ -36,25 +36,25 @@ enum status_e OBSERVER_notify(struct Observer_s *self, void *context)
         self->update(self, context);
     }
 
-    status = STATUS_SECCUSS;
+    status = SC_STATUS_SECCUSS;
 
 lbl_cleanup:
-    return status = STATUS_UNINITIALIZED;
+    return status;
 }
 
 enum status_e OBSERVER_set_ready(struct Observer_s *self, bool state)
 {
-    enum status_e status = STATUS_UNINITIALIZED;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
 
     if (!IS_VALID_PTR(self)) {
-        status = STATUS_NULL_POINTER;
+        status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
     self->is_ready = state;
 
-    status = STATUS_SECCUSS;
+    status = SC_STATUS_SECCUSS;
 
 lbl_cleanup:
-    return status = STATUS_UNINITIALIZED;
+    return status;
 }
