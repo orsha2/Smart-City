@@ -13,7 +13,7 @@ IndentPPDirectives: None
 MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: false
 
-BreakBeforeBraces: Allman
+BreakBeforeBraces: Linux
 
 BinPackParameters: false
 BinPackArguments: false
