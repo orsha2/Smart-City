@@ -7,6 +7,7 @@
 
 struct TestContext_s
 {
+    int value;
     int expected_value;
     bool was_called;
     enum status_e callback_status;
@@ -17,15 +18,20 @@ static void naive_update_callback(void *self, void *context)
     struct Observer_s *observer;
     struct TestContext_s *test_context;
 
+    if (!IS_VALID_PTR(self) || !IS_VALID_PTR(context))
+    {
+        goto lbl_cleanup;
+    }
+
     observer = (struct Observer_s *)self;
     test_context = (struct TestContext_s *)context;
 
-    TEST_ASSERT_TRUE(IS_VALID_PTR(observer));
-    TEST_ASSERT_TRUE(IS_VALID_PTR(test_context));
-    TEST_ASSERT_EQUAL_INT(TEST_CONTEXT_EXPECTED_VALUE, test_context->expected_value);
-
+    test_context->value = TEST_CONTEXT_EXPECTED_VALUE;
     test_context->was_called = true;
     test_context->callback_status = OBSERVER_set_ready(observer, true);
+
+lbl_cleanup:
+    return;
 }
 
 void setUp(void)
@@ -64,6 +70,7 @@ void test_OBSERVER_notify_should_call_update_and_set_ready(void)
     status = OBSERVER_notify(&observer, &context);
     TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
 
+    TEST_ASSERT_EQUAL_INT(context.value, context.expected_value);
     TEST_ASSERT_TRUE(context.was_called);
     TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, context.callback_status);
     TEST_ASSERT_TRUE(observer.is_ready);
