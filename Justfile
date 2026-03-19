@@ -7,7 +7,7 @@ default:
     @just --list
 
 _configure_debug:
-    cmake -S . -B {{build_dir}} -DENABLE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    cmake -S . -B {{build_dir}} -DBUILD_TESTING=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 build: _configure_debug
     cmake --build {{build_dir}} --parallel
@@ -16,7 +16,7 @@ run: build
     ./{{build_dir}}/src/app
 
 test: build
-    pushd  {{build_dir}}; ctest --output-on-failure; popd
+    ctest --test-dir build --output-on-failure
 
 format:
     find {{src_dir}} -type f -regextype posix-extended -regex '.*\.(c|h)' -print0 | \

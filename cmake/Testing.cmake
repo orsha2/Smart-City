@@ -1,4 +1,3 @@
-include(CTest)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -8,5 +7,3 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(unity)
-
-add_subdirectory(tests)
