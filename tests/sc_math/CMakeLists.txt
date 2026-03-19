@@ -1,0 +1,1 @@
+add_sc_unit_test(test_sc_math test_sc_math.c sc_math)
