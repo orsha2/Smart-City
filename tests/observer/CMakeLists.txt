@@ -1,0 +1,1 @@
+add_sc_unit_test(test_observer test_observer.c bserver)

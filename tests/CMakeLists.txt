@@ -1,3 +1,3 @@
 include(Testing)
 
-add_subdirectory(sc_math)
+add_subdirectory(observer)
