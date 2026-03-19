@@ -1,18 +1,26 @@
-Checks: >-
-  -*-,
-  clang-analyzer-*,
-  bugprone-*,
-  misc-*,
-  readability-braces-around-statements,
-  readability-else-after-return,
-  readability-redundant-control-flow,
-  readability-simplify-boolean-expr,
-  -misc-include-cleaner
-
-WarningsAsErrors: ''
-HeaderFilterRegex: '^src/.*'
-FormatStyle: file
-
+Checks: >
+  *,
+  -altera-*,
+  -llvmlibc-restrict-system-libc-headers,
+  -*-macro-to-enum,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -llvm-header-guard,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-reserved-identifier,
+  -cert-int09-c, -readability-enum-initial-value,
+  -cert-dcl37-c,
+  -cert-dcl51-cpp,
+  -misc-include-cleaner,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -concurrency-mt-unsafe,
+  c-guard-*
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
 CheckOptions:
-  - key: readability-braces-around-statements.ShortStatementLines
-    value: '0'
+  readability-identifier-length.IgnoredVariableNames: '^(i|j|k|l|fd|ai|n|opt|val|end|ok)$'
+  readability-identifier-length.IgnoredParameterNames: '^(i|j|k|l|fd|ai|n|opt|val|end|ok)$'
+  readability-identifier-naming.EnumConstantCase: 'UPPER_CASE'
+  readability-identifier-naming.GlobalVariablePrefix: 'g_'
+  readability-identifier-naming.EnumSuffix: '_e'
+  readability-identifier-naming.StructSuffix: '_s'
+  readability-identifier-naming.TypedefSuffix: '_t'

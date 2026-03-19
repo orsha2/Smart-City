@@ -10,6 +10,6 @@
 #ifndef __SC_MATH_ADD_H__
 #define __SC_MATH_ADD_H__
 
-int SC_MATH_add(int a, int b);
+int SC_MATH_add(int num1, int num2);
 
 #endif /* !__ADD_H__ */
