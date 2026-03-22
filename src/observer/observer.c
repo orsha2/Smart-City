@@ -1,6 +1,7 @@
+/** Headers ******************************************************************/
 #include "observer.h"
-#include "common.h"
 
+/** Functions ****************************************************************/
 enum status_e OBSERVER_init(struct Observer_s *self, observer_update_fn_t update)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
@@ -13,7 +14,7 @@ enum status_e OBSERVER_init(struct Observer_s *self, observer_update_fn_t update
     self->update = update;
     self->is_ready = false;
 
-    status = SC_STATUS_SECCUSS;
+    status = SC_STATUS_SUCCESS;
 
 lbl_cleanup:
     return status;
@@ -22,8 +23,6 @@ lbl_cleanup:
 enum status_e OBSERVER_notify(struct Observer_s *self, void *context)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
-
-    (void)context;
 
     if (!IS_VALID_PTR(self)) {
         status = SC_STATUS_NULL_POINTER;
@@ -36,7 +35,7 @@ enum status_e OBSERVER_notify(struct Observer_s *self, void *context)
         self->update(self, context);
     }
 
-    status = SC_STATUS_SECCUSS;
+    status = SC_STATUS_SUCCESS;
 
 lbl_cleanup:
     return status;
@@ -53,7 +52,7 @@ enum status_e OBSERVER_set_ready(struct Observer_s *self, bool state)
 
     self->is_ready = state;
 
-    status = SC_STATUS_SECCUSS;
+    status = SC_STATUS_SUCCESS;
 
 lbl_cleanup:
     return status;

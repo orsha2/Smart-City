@@ -1,10 +1,13 @@
+/** Headers ******************************************************************/
 #include "unity.h"
 
 #include "common.h"
 #include "observer.h"
 
+/** Constnats ****************************************************************/
 #define TEST_CONTEXT_EXPECTED_VALUE (42)
 
+/** Structs ******************************************************************/
 struct TestContext_s
 {
     int value;
@@ -13,6 +16,7 @@ struct TestContext_s
     enum status_e callback_status;
 };
 
+/** Functions ****************************************************************/
 static void naive_update_callback(void *self, void *context)
 {
     struct Observer_s *observer;
@@ -49,7 +53,7 @@ void test_OBSERVER_init_should_initialize_observer(void)
 
     status = OBSERVER_init(&observer, naive_update_callback);
 
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
     TEST_ASSERT_EQUAL_PTR(naive_update_callback, observer.update);
     TEST_ASSERT_FALSE(observer.is_ready);
 }
@@ -65,14 +69,14 @@ void test_OBSERVER_notify_should_call_update_and_set_ready(void)
     context.callback_status = SC_STATUS_UNINITIALIZED;
 
     status = OBSERVER_init(&observer, naive_update_callback);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     status = OBSERVER_notify(&observer, &context);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     TEST_ASSERT_EQUAL_INT(context.value, context.expected_value);
     TEST_ASSERT_TRUE(context.was_called);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, context.callback_status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, context.callback_status);
     TEST_ASSERT_TRUE(observer.is_ready);
 }
 
@@ -82,10 +86,10 @@ void test_OBSERVER_set_ready_should_set_true(void)
     enum status_e status;
 
     status = OBSERVER_init(&observer, naive_update_callback);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     status = OBSERVER_set_ready(&observer, true);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     TEST_ASSERT_TRUE(observer.is_ready);
 }
@@ -96,10 +100,10 @@ void test_OBSERVER_set_ready_should_set_false(void)
     enum status_e status = SC_STATUS_UNINITIALIZED;
 
     status = OBSERVER_init(&observer, naive_update_callback);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     status = OBSERVER_set_ready(&observer, false);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     TEST_ASSERT_FALSE(observer.is_ready);
 }
@@ -110,10 +114,10 @@ void test_OBSERVER_notify_should_succeed_when_update_is_null(void)
     enum status_e status = SC_STATUS_UNINITIALIZED;
 
     status = OBSERVER_init(&observer, NULL);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     status = OBSERVER_notify(&observer, NULL);
-    TEST_ASSERT_EQUAL_INT(SC_STATUS_SECCUSS, status);
+    TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
 
     TEST_ASSERT_FALSE(observer.is_ready);
 }

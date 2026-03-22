@@ -12,9 +12,6 @@ _configure_debug:
 build: _configure_debug
     cmake --build {{build_dir}} --parallel
 
-run: build
-    ./{{build_dir}}/src/app
-
 test: build
     pushd build; ctest --output-on-failure -V; popd
 
