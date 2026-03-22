@@ -31,7 +31,6 @@ struct Observer_s {
     bool is_ready;
 };
 
-
 enum status_e OBSERVER_init(struct Observer_s *self, observer_update_fn_t update);
 
 enum status_e OBSERVER_notify(struct Observer_s *self, void *context);
