@@ -2,12 +2,7 @@
 
 set -euo pipefail
 
-readonly COMMIT_MSG_FILE="${1:-}"
-
-if [[ -z "${COMMIT_MSG_FILE}" ]]; then
-    echo "Usage: check_commit_msg.sh <commit-msg-file>" >&2
-    exit 1
-fi
+readonly COMMIT_MSG_FILE=".git/COMMIT_EDITMSG"
 
 if [[ ! -f "${COMMIT_MSG_FILE}" ]]; then
     echo "Commit message file does not exist: ${COMMIT_MSG_FILE}" >&2
@@ -47,14 +42,14 @@ fi
 
 required_prefix="${BASH_REMATCH[1]}"
 
-if [[ ! "${commit_message}" =~ ^${required_prefix}([[:space:]]|:|$) ]]; then
+if [[ ! "${commit_message}" =~ ^${required_prefix}:[[:space:]]+.+$ ]]; then
     echo "Invalid commit message." >&2
     echo "Branch: ${branch_name}" >&2
-    echo "Commit message must start with: ${required_prefix}" >&2
+    echo "Commit message must start with: ${required_prefix}: <message>" >&2
     echo "Actual message: ${commit_message}" >&2
     echo >&2
     echo "Example:" >&2
-    echo "  ${required_prefix} add observer unit tests" >&2
+    echo "  ${required_prefix}: improve pre commit conditions" >&2
     exit 1
 fi
 
