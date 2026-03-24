@@ -4,26 +4,15 @@ Data Holder
 
 ## 2. Description
 
-The Data Holder module is responsible for storing validated data in a structured format.
+Receives raw data from a Data Source, validates it, parses it into a typed structure, stores it, and notifies downstream observers.
 
-It receives raw input data from a Data Source, validates the value, and stores it inside a typed data structure.
-
-Once the data is validated and stored, the module notifies downstream observers with the processed data.
-
-For this reason, a Data Holder acts as both:
-
-1. an Observer (receives data from a Data Source)
-2. a Subject (notifies Events)
+Acts as both an Observer (receives from Data Source) and a Subject (notifies downstream).
 
 ## 3. What Does the Module Store
 
-The Data Holder structure stores:
-
-1. an Observer base used to receive updates from a Data Source
-
-2. a Subject base used to notify downstream observers
-
-3. a typed data structure containing the validated value
+1. an Observer
+2. a Subject
+3. a typed structure holding the validated and parsed value
 
 ## 4. Abstract Implementation
 
@@ -56,6 +45,6 @@ void DATA_HOLDER_publish(struct DataHolder *self);
 
 ## 5. Notes
 
-1. In the system pipeline, Data Holders usually notify Event modules.
+1. Downstream consumers are either an Event or an Aggregator, depending on the pipeline branch.
 
-2. Because the Data Holder is both an Observer and a Subject, it acts as a processing stage in the pipeline.
+2. `DATA_HOLDER_init` takes no `observer_update_fn` - the update callback is wired during concrete initialization, not at the abstract level.

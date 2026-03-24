@@ -1,28 +1,25 @@
 ## 1. Module Name
 
-Entry point
+Entry Point
 
 
 ## 2. Description
 
-The entry point module defines the functions through which external inputs enter the system pipeline.
+Defines the boundary between external signals and the internal pipeline.
 
-Entry points receive raw input values from the processor, HAL, or external environment and forward them to the appropriate Data Source.
-
-These functions act as the boundary between the external environment and the internal architecture.
-
-Entry points do not contain system logic.
-Their role is only to forward incoming values to the corresponding Data Source.
+An Entry Point receives a trigger from the processor or HAL and forwards it to the corresponding Data Source. It carries no data and performs no HAL read.
 
 
 ## 3. What Does the Module Store
 
-The Entry Points module does not store any data.
-
-The module acts purely as a routing layer between the external environment and the internal system pipeline.
+Nothing. Pure trigger routing.
 
 
 ## 4. Abstract Implementation
+
+### Read API (inputs)
+
+Called by the processor or HAL to signal that new data is available.
 
 ```c
 #ifndef __SMART_CITY_ENTRY_POINT_H__
@@ -32,38 +29,42 @@ The module acts purely as a routing layer between the external environment and t
 #include "time_data_source.h"
 #include "traffic_data_source.h"
 
-void SMART_CITY_on_temperature_update(float temperature);
+void temperature_entry_point(void);
 
-void SMART_CITY_on_time_update(int hour);
+void time_entry_point(void);
 
-void SMART_CITY_on_traffic_update(int congestion_level);
+void traffic_entry_point(void);
 
 #endif /* !__SMART_CITY_ENTRY_POINT_H__ */
 ```
 
-
 Example implementation:
 
 ```c
-void SMART_CITY_on_temperature_entry_point(float temperature)
+void temperature_entry_point(void)
 {
-    ...
-
-    TEMPERATURE_DATA_SOURCE_publish(TEMPERATURE_DATA_SOURCE, &temperature);
+    TEMPERATURE_DATA_SOURCE_publish(TEMPERATURE_DATA_SOURCE);
 }
 
-void SMART_CITY_on_time_entry_point(int hour)
+void time_entry_point(void)
 {
-    ...
-
-    TIME_DATA_SOURCE_publish(TIME_DATA_SOURCE, &hour);
+    TIME_DATA_SOURCE_publish(TIME_DATA_SOURCE);
 }
 
-void SMART_CITY_on_traffic_entry_point(int congestion_level)
+void traffic_entry_point(void)
 {
-    ...
-
-    TRAFFIC_DATA_SOURCE_publish(TRAFFIC_DATA_SOURCE, &congestion_level);
+    TRAFFIC_DATA_SOURCE_publish(TRAFFIC_DATA_SOURCE);
 }
 ```
 
+### Write API (outputs)
+
+Called by Response modules to apply a decision to the external world.
+
+```c
+void city_api_cooling_entry_point(int cooling_command);
+
+void city_api_lighting_entry_point(int lighting_command);
+
+void city_api_traffic_entry_point(int traffic_command);
+```

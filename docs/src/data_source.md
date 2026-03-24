@@ -4,20 +4,13 @@ Data Source
 
 ## 2. Description
 
-The Data Source module represents the entry point of raw data into the system pipeline.
+Reads raw data from HAL and publishes it downstream. Performs no validation or business logic.
 
-A Data Source receives input values from the external environment (for example, the processor or HAL) and forwards them to the next stage in the pipeline.
-
-The module itself does not perform validation or business logic.
-Its responsibility is only to propagate incoming data to its observers.
-
-For this reason, a Data Source is implemented as a Subject.
+Triggered by an Entry Point. Acts as a Subject.
 
 ## 3. What Does the Module Store
 
-The Data Source structure stores a subject base used to notify downstream observers.
-
-The Data Source does not store the data value itself.
+A Subject. Does not store the data value itself.
 
 ## 4. Abstract Implementation
 
@@ -37,18 +30,15 @@ void DATA_SOURCE_init(struct DataSource *self);
 bool DATA_SOURCE_attach(struct DataSource *self,
                         struct Observer *observer);
 
-void DATA_SOURCE_publish(struct DataSource *self,
-                         void *context);
+void DATA_SOURCE_publish(struct DataSource *self);
 
 #endif /* !__SMART_CITY_DATA_SOURCE_H__ */
 ```
 
 ## 5. Notes
 
-1. The Data Source does not interpret or validate the data it receives.
+1. Reads and publishes raw - no interpretation or validation.
 
-2. In the system pipeline, the Data Source is typically connected to a Data Holder.
+2. Does not self-trigger. Reads only when called by an Entry Point.
 
-3. The system **entry point** directly invokes the relevant **Data Source**.
-
-At the beginning of each cycle, the entry point effects the appropriate Data Source, which then performs a `publish()` operation on its global subject. From this point, the event begins to propagate through the system.
+3. Downstream consumers are typically Data Holders.

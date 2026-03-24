@@ -3,17 +3,15 @@ Observer
 
 
 ## 2. Description
-The **Observer module** implements the **Observer design pattern**. 
+Implements the Observer side of the Observer design pattern.
 
-Each observer stores a **callback\update function** that is executed when a notification occurs.
+Stores a callback function executed when a notification is received.
 
 
 ## 3. What Does the Module Store
 
-The Observer structure stores:
-
-- a function pointer used to handle notifications (`update`)
-- a boolean `is_ready` flag indicating that the observer finished handling the notification
+- `update` - function pointer invoked on notification
+- `is_ready` - flag set when the observer finishes handling a notification
 
 
 ## 4. Abstract Implementation
@@ -42,7 +40,6 @@ void OBSERVER_set_ready(struct Observer *self, bool state);
 
 ## 5. Notes
 
-1. Whether the observer affects the external world depends on the callback that is provided to it.
-The Observer itself only forwards notifications.
+1. The Observer only forwards notifications. What happens inside `update` is the responsibility of the concrete implementation.
 
-2. Any component that propagates information to the next entity in the pipeline must expose an Observer.
+2. Any component that receives data from an upstream stage must embed an Observer.

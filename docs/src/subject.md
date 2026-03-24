@@ -5,22 +5,15 @@ Subject
 
 ## 2. Description
 
-The Subject module implements the Subject side of the Observer design pattern.
+Implements the Subject side of the Observer design pattern.
 
-A Subject maintains a collection of observers and is responsible for notifying them when a new event occurs.
-
-The Subject itself does not perform business logic.
-It only manages observers and propagates notifications.
+Maintains a list of registered observers and notifies them when an event occurs. Performs no business logic.
 
 
 ## 3. What Does the Module Store
 
-The Subject structure stores:
-
-- a fixed size list of observers
+- a fixed-size list of observers
 - the number of registered observers
-
-This allows the subject to iterate over all observers and notify them when needed.
 
 
 ## 4. Abstract Implementation
@@ -54,9 +47,6 @@ void SUBJECT_notify_all(struct Subject *self,
 
 ## 5. Notes
 
-1. The Subject does not know what the observers do.
-   It only effects their update callback.
+1. The Subject has no knowledge of what observers do - it only calls their `update` callback.
 
-2. The Subject acts as the event distributor in the system pipeline.
-
-3. Any component that produces events for other components should expose a Subject.
+2. Any component that produces events for downstream stages must embed a Subject.
