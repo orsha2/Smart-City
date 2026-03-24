@@ -8,11 +8,11 @@
 DEFINE_FFF_GLOBALS
 
 /** Constants ****************************************************************/
-#define TEST_TEMPERATURE_VALUE     (31U)
-#define TEST_TIME_VALUE            (152311LL)
-#define TEST_TRAFFIC_VALUE         (77U)
-#define TEST_RED_LIGHT_DURATION    (45U)
-#define TEST_GREEN_LIGHT_DURATION  (20U)
+#define TEST_TEMPERATURE_VALUE (31U)
+#define TEST_TIME_VALUE (152311LL)
+#define TEST_TRAFFIC_VALUE (77U)
+#define TEST_RED_LIGHT_DURATION (45U)
+#define TEST_GREEN_LIGHT_DURATION (20U)
 
 /** Fakes ********************************************************************/
 FAKE_VALUE_FUNC0(uint32_t, HAL_read_temperature_sensor)
@@ -30,13 +30,13 @@ FAKE_VOID_FUNC2(HAL_set_traffic_light, size_t, size_t)
 
 FAKE_VALUE_FUNC2(enum status_e, SUBJECT_notify_all, struct Subject_s *, void *)
 
-/** Test globals *************************************************************/
+/** Globals *************************************************************/
 static struct Subject_s *g_subject_seen = NULL;
 static struct TemperatureRawData_s g_temperature_raw_data = {0};
 static struct TimeRawData_s g_time_raw_data = {0};
 static struct TrafficRawData_s g_traffic_raw_data = {0};
 
-/** Custom fakes *************************************************************/
+/** Custom Fakes *************************************************************/
 static enum status_e capture_temperature_notify_all(struct Subject_s *self,
                                                     void *context)
 {
