@@ -1,0 +1,1 @@
+add_sc_unit_test(test_subject test_subject.c subject)
