@@ -36,23 +36,23 @@ struct Subject_s {
 /**
  * @brief Initialize a subject instance.
  *
- * @param self Pointer to the subject instance to initialize.
+ * @param[out] self Pointer to the subject instance to initialize.
  */
 enum status_e SUBJECT_init(struct Subject_s *self);
 
 /**
  * @brief Attach an observer to a subject.
  *
- * @param self Pointer to the subject instance.
- * @param observer Pointer to the observer to attach.
+ * @param[in,out] self Pointer to the subject instance.
+ * @param[in] observer Pointer to the observer to attach.
  */
 bool SUBJECT_attach(struct Subject_s *self, struct Observer_s *observer);
 
 /**
  * @brief Notify all attached observers about a new event.
  *
- * @param self Pointer to the subject instance.
- * @param context User-provided context passed to each observer callback.
+ * @param[in] self Pointer to the subject instance.
+ * @param[in] context User-provided context passed to each observer callback.
  */
 enum status_e SUBJECT_notify_all(struct Subject_s *self, void *context);
 

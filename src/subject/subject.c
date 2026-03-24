@@ -29,11 +29,7 @@ bool SUBJECT_attach(struct Subject_s *self, struct Observer_s *observer)
     bool is_attached = false;
     size_t index = 0;
 
-    if (!IS_VALID_PTR(self)) {
-        goto lbl_cleanup;
-    }
-
-    if (!IS_VALID_PTR(observer)) {
+    if (!IS_VALID_PTR(self) || !IS_VALID_PTR(observer)) {
         goto lbl_cleanup;
     }
 
@@ -59,7 +55,6 @@ lbl_cleanup:
 enum status_e SUBJECT_notify_all(struct Subject_s *self, void *context)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
-    enum status_e observer_status = SC_STATUS_UNINITIALIZED;
     size_t index = 0;
 
     if (!IS_VALID_PTR(self)) {
@@ -68,9 +63,8 @@ enum status_e SUBJECT_notify_all(struct Subject_s *self, void *context)
     }
 
     for (index = 0; index < self->count; ++index) {
-        observer_status = OBSERVER_notify(self->observers[index], context);
-        if (SC_STATUS_SUCCESS != observer_status) {
-            status = observer_status;
+        status = OBSERVER_notify(self->observers[index], context);
+        if (SC_STATUS_SUCCESS != status) {
             goto lbl_cleanup;
         }
     }

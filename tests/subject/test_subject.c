@@ -5,7 +5,7 @@
 #include "observer.h"
 #include "subject.h"
 
-/** Constnats ****************************************************************/
+/** Constants ****************************************************************/
 #define TEST_SUBJECT_EXPECTED_NOTIFY_COUNT (2)
 
 /** Structs ******************************************************************/
@@ -160,9 +160,9 @@ void test_SUBJECT_notify_all_should_notify_all_observers(void)
     context.notify_count = 0;
     context.callback_status = SC_STATUS_UNINITIALIZED;
 
-    status = SUBJECT_init(&subject);
-    status = OBSERVER_init(&observer_1, naive_update_callback);
-    status = OBSERVER_init(&observer_2, naive_update_callback);
+    SUBJECT_init(&subject);
+    OBSERVER_init(&observer_1, naive_update_callback);
+    OBSERVER_init(&observer_2, naive_update_callback);
     SUBJECT_attach(&subject, &observer_1);
     SUBJECT_attach(&subject, &observer_2);
     status = SUBJECT_notify_all(&subject, &context);
