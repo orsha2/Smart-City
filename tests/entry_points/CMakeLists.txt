@@ -1,0 +1,1 @@
+add_sc_unit_test(test_entry_points test_entry_points.c entry_points)
