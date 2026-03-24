@@ -15,7 +15,6 @@ DEFINE_FFF_GLOBALS
 #define TEST_GREEN_LIGHT_DURATION  (20U)
 
 /** Fakes ********************************************************************/
-
 FAKE_VALUE_FUNC0(uint32_t, HAL_read_temperature_sensor)
 FAKE_VALUE_FUNC0(int64_t, HAL_read_time_sensor)
 FAKE_VALUE_FUNC0(uint16_t, HAL_read_traffic_sensor)
@@ -30,6 +29,79 @@ FAKE_VOID_FUNC0(HAL_turn_off_streetlights)
 FAKE_VOID_FUNC2(HAL_set_traffic_light, size_t, size_t)
 
 FAKE_VALUE_FUNC2(enum status_e, SUBJECT_notify_all, struct Subject_s *, void *)
+
+/** Test globals *************************************************************/
+static struct Subject_s *g_subject_seen = NULL;
+static struct TemperatureRawData_s g_temperature_raw_data = {0};
+static struct TimeRawData_s g_time_raw_data = {0};
+static struct TrafficRawData_s g_traffic_raw_data = {0};
+
+/** Custom fakes *************************************************************/
+static enum status_e capture_temperature_notify_all(struct Subject_s *self,
+                                                    void *context)
+{
+    struct TemperatureRawData_s *raw_data = NULL;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
+
+    if (!IS_VALID_PTR(self) || !IS_VALID_PTR(context)) {
+        status = SC_STATUS_NULL_POINTER;
+        goto lbl_cleanup;
+    }
+
+    raw_data = (struct TemperatureRawData_s *)context;
+
+    g_subject_seen = self;
+    g_temperature_raw_data = *raw_data;
+
+    status = SC_STATUS_SUCCESS;
+
+lbl_cleanup:
+    return status;
+}
+
+static enum status_e capture_time_notify_all(struct Subject_s *self,
+                                             void *context)
+{
+    struct TimeRawData_s *raw_data = NULL;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
+
+    if (!IS_VALID_PTR(self) || !IS_VALID_PTR(context)) {
+        status = SC_STATUS_NULL_POINTER;
+        goto lbl_cleanup;
+    }
+
+    raw_data = (struct TimeRawData_s *)context;
+
+    g_subject_seen = self;
+    g_time_raw_data = *raw_data;
+
+    status = SC_STATUS_SUCCESS;
+
+lbl_cleanup:
+    return status;
+}
+
+static enum status_e capture_traffic_notify_all(struct Subject_s *self,
+                                                void *context)
+{
+    struct TrafficRawData_s *raw_data = NULL;
+    enum status_e status = SC_STATUS_UNINITIALIZED;
+
+    if (!IS_VALID_PTR(self) || !IS_VALID_PTR(context)) {
+        status = SC_STATUS_NULL_POINTER;
+        goto lbl_cleanup;
+    }
+
+    raw_data = (struct TrafficRawData_s *)context;
+
+    g_subject_seen = self;
+    g_traffic_raw_data = *raw_data;
+
+    status = SC_STATUS_SUCCESS;
+
+lbl_cleanup:
+    return status;
+}
 
 /** Functions ****************************************************************/
 void setUp(void)
@@ -46,6 +118,13 @@ void setUp(void)
     FFF_RESET_HISTORY();
 
     SUBJECT_notify_all_fake.return_val = SC_STATUS_SUCCESS;
+    SUBJECT_notify_all_fake.custom_fake = NULL;
+
+    g_subject_seen = NULL;
+
+    g_temperature_raw_data.value = 0U;
+    g_time_raw_data.value = 0;
+    g_traffic_raw_data.value = 0U;
 }
 
 void tearDown(void)
@@ -88,64 +167,52 @@ void test_traffic_entry_point_should_fail_when_self_is_null(void)
 void test_temperature_entry_point_should_read_temperature_from_hal_and_notify_subject(void)
 {
     struct Subject_s subject = {0};
-    struct TemperatureRawData_s *raw_data = NULL;
     enum status_e status = SC_STATUS_UNINITIALIZED;
 
     HAL_read_temperature_sensor_fake.return_val = TEST_TEMPERATURE_VALUE;
+    SUBJECT_notify_all_fake.custom_fake = capture_temperature_notify_all;
 
     status = temperature_entry_point(&subject);
 
     TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
     TEST_ASSERT_EQUAL_UINT(1U, HAL_read_temperature_sensor_fake.call_count);
     TEST_ASSERT_EQUAL_UINT(1U, SUBJECT_notify_all_fake.call_count);
-
-    TEST_ASSERT_EQUAL_PTR(&subject, SUBJECT_notify_all_fake.arg0_val);
-
-    raw_data = (struct TemperatureRawData_s *)SUBJECT_notify_all_fake.arg1_val;
-    TEST_ASSERT_NOT_NULL(raw_data);
-    TEST_ASSERT_EQUAL_UINT(TEST_TEMPERATURE_VALUE, raw_data->value);
+    TEST_ASSERT_EQUAL_PTR(&subject, g_subject_seen);
+    TEST_ASSERT_EQUAL_UINT(TEST_TEMPERATURE_VALUE, g_temperature_raw_data.value);
 }
 
 void test_time_entry_point_should_read_time_from_hal_and_notify_subject(void)
 {
     struct Subject_s subject = {0};
-    struct TimeRawData_s *raw_data = NULL;
     enum status_e status = SC_STATUS_UNINITIALIZED;
 
     HAL_read_time_sensor_fake.return_val = TEST_TIME_VALUE;
+    SUBJECT_notify_all_fake.custom_fake = capture_time_notify_all;
 
     status = time_entry_point(&subject);
 
     TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
     TEST_ASSERT_EQUAL_UINT(1U, HAL_read_time_sensor_fake.call_count);
     TEST_ASSERT_EQUAL_UINT(1U, SUBJECT_notify_all_fake.call_count);
-
-    TEST_ASSERT_EQUAL_PTR(&subject, SUBJECT_notify_all_fake.arg0_val);
-
-    raw_data = (struct TimeRawData_s *)SUBJECT_notify_all_fake.arg1_val;
-    TEST_ASSERT_NOT_NULL(raw_data);
-    TEST_ASSERT_EQUAL_INT64(TEST_TIME_VALUE, raw_data->value);
+    TEST_ASSERT_EQUAL_PTR(&subject, g_subject_seen);
+    TEST_ASSERT_EQUAL_INT64(TEST_TIME_VALUE, g_time_raw_data.value);
 }
 
 void test_traffic_entry_point_should_read_traffic_from_hal_and_notify_subject(void)
 {
     struct Subject_s subject = {0};
-    struct TrafficRawData_s *raw_data = NULL;
     enum status_e status = SC_STATUS_UNINITIALIZED;
 
     HAL_read_traffic_sensor_fake.return_val = TEST_TRAFFIC_VALUE;
+    SUBJECT_notify_all_fake.custom_fake = capture_traffic_notify_all;
 
     status = traffic_entry_point(&subject);
 
     TEST_ASSERT_EQUAL_INT(SC_STATUS_SUCCESS, status);
     TEST_ASSERT_EQUAL_UINT(1U, HAL_read_traffic_sensor_fake.call_count);
     TEST_ASSERT_EQUAL_UINT(1U, SUBJECT_notify_all_fake.call_count);
-
-    TEST_ASSERT_EQUAL_PTR(&subject, SUBJECT_notify_all_fake.arg0_val);
-
-    raw_data = (struct TrafficRawData_s *)SUBJECT_notify_all_fake.arg1_val;
-    TEST_ASSERT_NOT_NULL(raw_data);
-    TEST_ASSERT_EQUAL_UINT(TEST_TRAFFIC_VALUE, raw_data->value);
+    TEST_ASSERT_EQUAL_PTR(&subject, g_subject_seen);
+    TEST_ASSERT_EQUAL_UINT(TEST_TRAFFIC_VALUE, g_traffic_raw_data.value);
 }
 
 void test_city_api_cooling_entry_point_should_fail_when_self_is_null(void)
