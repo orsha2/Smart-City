@@ -1,44 +1,18 @@
 /**
  * @brief Public interface of the Entry Points module.
  *
- * This header defines the boundary functions used to read raw sensor data
- * from the HAL and forward it into the system pipeline, and to forward final
- * system commands to the HAL.
+ * This header defines the boundary functions used to trigger the system
+ * pipeline and to forward final system commands to the HAL.
  */
 #ifndef __SMART_CITY_ENTRY_POINTS_H__
 #define __SMART_CITY_ENTRY_POINTS_H__
 
 /** Headers ******************************************************************/
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-
 #include "common.h"
 #include "hal_functions.h"
 #include "subject.h"
 
 /** Structs ******************************************************************/
-/**
- * @brief Raw temperature data received from the HAL.
- */
-struct TemperatureRawData_s {
-    uint32_t value;
-};
-
-/**
- * @brief Raw time data received from the HAL.
- */
-struct TimeRawData_s {
-    int64_t value;
-};
-
-/**
- * @brief Raw traffic data received from the HAL.
- */
-struct TrafficRawData_s {
-    uint16_t value;
-};
-
 /**
  * @brief Command data for the cooling system.
  */
@@ -63,28 +37,29 @@ struct TrafficCommand_s {
     size_t green_light_duration;
 };
 
-/** Functions ****************************************************************/
+/** Read API (inputs) ********************************************************/
 /**
- * @brief Reads raw temperature data from the HAL and publishes it to the pipeline.
+ * @brief Triggers the temperature pipeline.
  *
- * @param[in,out] self Pointer to the subject used to publish the raw temperature data.
+ * @param[in,out] self Pointer to the subject to notify.
  */
 enum status_e temperature_entry_point(struct Subject_s *self);
 
 /**
- * @brief Reads raw time data from the HAL and publishes it to the pipeline.
+ * @brief Triggers the time pipeline.
  *
- * @param[in,out] self Pointer to the subject used to publish the raw time data.
+ * @param[in,out] self Pointer to the subject to notify.
  */
 enum status_e time_entry_point(struct Subject_s *self);
 
 /**
- * @brief Reads raw traffic data from the HAL and publishes it to the pipeline.
+ * @brief Triggers the traffic pipeline.
  *
- * @param[in,out] self Pointer to the subject used to publish the raw traffic data.
+ * @param[in,out] self Pointer to the subject to notify.
  */
 enum status_e traffic_entry_point(struct Subject_s *self);
 
+/** Write API (outputs) ******************************************************/
 /**
  * @brief Sends a cooling command to the HAL.
  *

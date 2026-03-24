@@ -1,20 +1,17 @@
 /** Headers ******************************************************************/
 #include "entry_points.h"
 
-/** Functions ****************************************************************/
+/** Read API (inputs) ********************************************************/
 enum status_e temperature_entry_point(struct Subject_s *self)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
-    struct TemperatureRawData_s raw_data = {0};
 
     if (!IS_VALID_PTR(self)) {
         status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
-    raw_data.value = HAL_read_temperature_sensor();
-
-    status = SUBJECT_notify_all(self, &raw_data);
+    status = SUBJECT_notify_all(self, NULL);
 
 lbl_cleanup:
     return status;
@@ -23,16 +20,13 @@ lbl_cleanup:
 enum status_e time_entry_point(struct Subject_s *self)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
-    struct TimeRawData_s raw_data = {0};
 
     if (!IS_VALID_PTR(self)) {
         status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
-    raw_data.value = HAL_read_time_sensor();
-
-    status = SUBJECT_notify_all(self, &raw_data);
+    status = SUBJECT_notify_all(self, NULL);
 
 lbl_cleanup:
     return status;
@@ -41,21 +35,19 @@ lbl_cleanup:
 enum status_e traffic_entry_point(struct Subject_s *self)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
-    struct TrafficRawData_s raw_data = {0};
 
     if (!IS_VALID_PTR(self)) {
         status = SC_STATUS_NULL_POINTER;
         goto lbl_cleanup;
     }
 
-    raw_data.value = HAL_read_traffic_sensor();
-
-    status = SUBJECT_notify_all(self, &raw_data);
+    status = SUBJECT_notify_all(self, NULL);
 
 lbl_cleanup:
     return status;
 }
 
+/** Write API (outputs) ******************************************************/
 enum status_e city_api_cooling_entry_point(struct CoolingCommand_s *self)
 {
     enum status_e status = SC_STATUS_UNINITIALIZED;
