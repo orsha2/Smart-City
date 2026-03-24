@@ -4,7 +4,7 @@
 #include "common.h"
 #include "observer.h"
 
-/** Constnats ****************************************************************/
+/** Constants ****************************************************************/
 #define TEST_CONTEXT_EXPECTED_VALUE (42)
 
 /** Structs ******************************************************************/
@@ -64,6 +64,7 @@ void test_OBSERVER_notify_should_call_update_and_set_ready(void)
     struct TestContext_s context;
     enum status_e status;
 
+    context.value = 0;
     context.expected_value = TEST_CONTEXT_EXPECTED_VALUE;
     context.was_called = false;
     context.callback_status = SC_STATUS_UNINITIALIZED;

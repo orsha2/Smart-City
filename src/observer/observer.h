@@ -16,8 +16,8 @@
 /**
  * @brief Callback type invoked when an observer receives a notification.
  *
- * @param self Pointer to the observer instance that receives the notification.
- * @param context User provided context forwarded by the caller of OBSERVER_notify().
+ * @param[in,out] self Pointer to the observer instance that receives the notification.
+ * @param[in,out] context User provided context forwarded by the caller of OBSERVER_notify().
  */
 typedef void (*observer_update_fn_t)(void *self, void *context);
 
@@ -35,24 +35,24 @@ struct Observer_s {
 /**
  * @brief Initialize an observer instance.
  *
- * @param self Pointer to the observer instance to initialize.
- * @param update Callback function invoked when the observer is notified.
+ * @param[out] self Pointer to the observer instance to initialize.
+ * @param[in] update Callback function invoked when the observer is notified.
  */
 enum status_e OBSERVER_init(struct Observer_s *self, observer_update_fn_t update);
 
 /**
  * @brief Notify an observer about a new event.
  *
- * @param self Pointer to the observer instance to notify.
- * @param context User-provided context passed to the observer callback.
+ * @param[in,out] self Pointer to the observer instance to notify.
+ * @param[in] context User-provided context passed to the observer callback.
  */
 enum status_e OBSERVER_notify(struct Observer_s *self, void *context);
 
 /**
  * @brief Update the readiness state of an observer.
  *
- * @param self Pointer to the observer instance to update.
- * @param state New readiness state to assign.
+ * @param[out] self Pointer to the observer instance to update.
+ * @param[in] state New readiness state to assign.
  */
 enum status_e OBSERVER_set_ready(struct Observer_s *self, bool state);
 
