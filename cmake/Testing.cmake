@@ -11,7 +11,7 @@ FetchContent_MakeAvailable(unity)
 FetchContent_Declare(
     fff
     GIT_REPOSITORY https://github.com/meekrosoft/fff.git
-    GIT_TAG v1.0
+    GIT_TAG v1.1
     )
     
 FetchContent_MakeAvailable(fff)
@@ -23,7 +23,11 @@ function(add_sc_unit_test test_name source_file tested_target)
         PRIVATE
             ${tested_target}
             unity
-            fff
+    )
+
+    target_include_directories(${test_name}
+        PRIVATE
+            ${fff_SOURCE_DIR}
     )
 
     add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
