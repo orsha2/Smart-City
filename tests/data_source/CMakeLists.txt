@@ -1,0 +1,1 @@
+add_sc_unit_test(test_data_source test_data_source.c data_source)
