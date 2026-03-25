@@ -7,7 +7,7 @@ Entry Point
 
 Defines the boundary between external signals and the internal pipeline.
 
-An Entry Point receives a trigger from the processor or HAL and forwards it to the corresponding Data Source. It carries no data and performs no HAL read.
+An Entry Point receives a trigger from the processor or HAL and forwards it to downstream modules. It carries no data and performs no HAL read.
 
 
 ## 3. What Does the Module Store

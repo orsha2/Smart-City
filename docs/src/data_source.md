@@ -4,7 +4,7 @@ Data Source
 
 ## 2. Description
 
-Reads raw data from HAL and publishes it downstream. Performs no validation or business logic.
+Reads raw data from HAL and publishes it downstream. Typically performs no validation or business logic.
 
 Triggered by an Entry Point. Acts as a Subject.
 
@@ -37,7 +37,7 @@ void DATA_SOURCE_publish(struct DataSource *self);
 
 ## 5. Notes
 
-1. Reads and publishes raw - no interpretation or validation.
+1. Reads and publishes raw - typically no interpretation or validation.
 
 2. Does not self-trigger. Reads only when called by an Entry Point.
 

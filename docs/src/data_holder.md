@@ -4,7 +4,7 @@ Data Holder
 
 ## 2. Description
 
-Receives raw data from a Data Source, validates it, parses it into a typed structure, stores it, and notifies downstream observers.
+Receives and manipulates raw data from a Data Source into a typed structure and notifies downstream observers.
 
 Acts as both an Observer (receives from Data Source) and a Subject (notifies downstream).
 
@@ -12,7 +12,6 @@ Acts as both an Observer (receives from Data Source) and a Subject (notifies dow
 
 1. an Observer
 2. a Subject
-3. a typed structure holding the validated and parsed value
 
 ## 4. Abstract Implementation
 
@@ -47,4 +46,6 @@ void DATA_HOLDER_publish(struct DataHolder *self);
 
 1. Downstream consumers are either an Event or an Aggregator, depending on the pipeline branch.
 
-2. `DATA_HOLDER_init` takes no `observer_update_fn` - the update callback is wired during concrete initialization, not at the abstract level.
+2. Data access follows a notify + fetch pattern: downstream consumers are notified via the observer callback, then read the data by referencing the global Data Holder instance and its fields directly.
+
+3. `DATA_HOLDER_init` takes no `observer_update_fn` - the update callback is wired during concrete initialization, not at the abstract level.

@@ -11,7 +11,6 @@ Does not propagate further. Acts as an Observer only.
 ## 3. What Does the Module Store
 
 1. an Observer
-2. internal state related to the applied action, if needed
 
 ## 4. Abstract Implementation
 

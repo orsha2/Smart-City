@@ -86,8 +86,8 @@ end
 subgraph EVENTS["Events"]
 
 EV_LIGHT["<div style='text-align:center;font-size:20px;font-weight:700;'>Lighting Event</div>
-<div style='text-align:left'>18:00-06:59 → lights on</div>
-<div style='text-align:left'>07:00-17:59 → lights off</div>"]
+<div style='text-align:left'>Publishes only on lighting state change</div>
+<div style='text-align:left'>18:00 → lights on · 07:00 → lights off</div>"]
 
 EV_TRAFFIC["<div style='text-align:center;font-size:20px;font-weight:700;'>Traffic Event</div>
 <div style='text-align:left'>Applies the traffic light algorithm</div>"]
@@ -187,9 +187,9 @@ Each component implements the Observer pattern:
 
 ## Design Notes
 
-1. **Entry Points** - Forwards a trigger to the corresponding Data Source. Carries no data; does not read HAL.
+1. **Entry Points** - Forwards a runtime signal to downstream modules. Carries no data; does not read HAL.
 
-2. **Data Sources** - Reads raw data from HAL and publishes downstream. No validation.
+2. **Data Sources** - Reads raw data from HAL and publishes downstream. Typically no validation.
 
 3. **Data Holders** - Validates, parses, and stores raw data, then publishes downstream. The Temperature pipeline has 3 Data Holders (Area A, B, C).
 
@@ -200,10 +200,11 @@ Each component implements the Observer pattern:
 
    Publishes the cooling command directly to the Response. No Event stage.
 
-5. **Aggregator synchronization** - Each upstream observer sets `is_ready` on completion. The Aggregator checks all flags before publishing; if any are unset, it exits and waits for the next event. Upstream subjects are global, so their state persists across events.
+5. **Aggregator synchronization** - Each upstream observer sets `is_ready` on completion. The Aggregator checks all flags before publishing; if any are unset, it exits and waits for the next event. After publishing, all `is_ready` flags are reset. Upstream subjects are global, so if a sensor was absent in a cycle its last value persists, bounded to at most one cycle old.
 
-6. **Lighting Event** - Checks validated time:
-   - 18:00-06:59 → lights on
-   - 07:00-17:59 → lights off
+6. **Lighting Event** - Checks validated time and publishes only on state change:
+   - 18:00 → lights on (transition from off)
+   - 07:00 → lights off (transition from on)
+   - No publish if the lighting state has not changed.
 
 7. **Traffic Event** - Applies the traffic light algorithm and publishes the resulting command.

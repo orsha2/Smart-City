@@ -4,15 +4,14 @@ Event
 
 ## 2. Description
 
-Receives validated data from a Data Holder, applies domain logic, and always publishes a result downstream.
+Receives validated data from a Data Holder, applies domain logic, and publishes downstream only when its condition is met.
 
-Acts as both an Observer (receives from Data Holder) and a Subject (notifies downstream Responses).
+Acts as both an Observer (receives from Data Holder) and a Subject (notifies downstream).
 
 ## 3. What Does the Module Store
 
 1. an Observer
 2. a Subject
-3. internal state relevant to the condition being evaluated
 
 ## 4. Abstract Implementation
 
@@ -41,5 +40,5 @@ bool EVENT_attach(struct Event *self,
 ## 5. Notes
 
 1. Each Event implements domain-specific logic. Examples:
-   - Lighting: lights on at 18:00-06:59, lights off at 07:00-17:59
+   - Lighting: publishes only on state change — 18:00 → lights on, 07:00 → lights off
    - Traffic: applies the traffic light algorithm
