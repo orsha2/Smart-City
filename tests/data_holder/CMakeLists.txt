@@ -1,0 +1,1 @@
+add_sc_unit_test(test_data_holder test_data_holder.c data_holder)

@@ -1,3 +1,5 @@
 add_subdirectory(observer)
 add_subdirectory(subject)
 add_subdirectory(entry_points)
+add_subdirectory(data_source)
+add_subdirectory(data_holder)
