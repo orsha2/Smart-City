@@ -1,0 +1,42 @@
+---
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  cert-*,
+  misc-*,
+  -readability-magic-numbers,
+  -readability-identifier-length,
+  -readability-function-cognitive-complexity
+
+WarningsAsErrors: >
+  clang-analyzer-*,
+  bugprone-*,
+  cert-*
+
+HeaderFilterRegex: '.*'
+
+AnalyzeTemporaryDtors: false
+
+FormatStyle: file
+
+CheckOptions:
+  - key: readability-function-size.LineThreshold
+    value: '200'
+
+  - key: readability-function-size.StatementThreshold
+    value: '150'
+
+  - key: readability-function-size.BranchThreshold
+    value: '50'
+
+  - key: readability-function-size.ParameterThreshold
+    value: '6'
+
+  - key: bugprone-suspicious-memset.FillChar
+    value: '0'
+
+  - key: bugprone-suspicious-missing-comma.MaxConcatenatedTokens
+    value: '5'
